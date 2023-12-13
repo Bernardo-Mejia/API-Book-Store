@@ -10,7 +10,12 @@ class GraphQLServer {
   private app!: Application;
   private httpServer!: Server;
   private readonly DEFAULT_PORT = 3025;
-  constructor() {
+  private schema!: GraphQLSchema;
+  constructor(schema: GraphQLSchema) {
+    if (schema === undefined) {
+      throw new Error("It required a GraphQL Schema to work with GraphQL APIs");
+    }
+    this.schema = schema;
     this.init();
   }
 
@@ -27,40 +32,8 @@ class GraphQLServer {
   }
 
   private async configApolloServerExpress() {
-    // ? Definir los tipos de definicion
-    const typeDefs = gql`
-      type Query {
-        hello: String!
-        helloWithName(name: String!): String!
-        peopleNumber: Int!
-      }
-    `;
-
-    // Resolvers
-    const resolver = {
-      Query: {
-        hello: (): string => "Hola",
-        helloWithName: (
-          _: void,
-          args: { name: string },
-          context: any,
-          info: object
-        ) => {
-          console.log(info);
-          return `Hola, ${args.name}`;
-        },
-        peopleNumber: () => 703,
-      },
-    };
-
-    // ? construir el esquema ejecutable
-    const schema: GraphQLSchema = makeExecutableSchema({
-      typeDefs,
-      resolvers: resolver,
-    });
-
     const apolloServer = new ApolloServer({
-      schema,
+      schema: this.schema,
       introspection: true,
     });
 
