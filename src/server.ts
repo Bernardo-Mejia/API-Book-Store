@@ -13,7 +13,7 @@ class GraphQLServer {
   private schema!: GraphQLSchema;
   constructor(schema: GraphQLSchema) {
     if (schema === undefined) {
-      throw new Error("It required a GraphQL Schema to work with GraphQL APIs");
+      throw new Error("Is required a GraphQL Schema to work with GraphQL APIs");
     }
     this.schema = schema;
     this.init();
