@@ -2,8 +2,12 @@ type Query {
   hello: String!
   helloWithName(name: String!): String!
   peopleNumber: Int!
+  # Lista de elementos
   booksList: [Book!]!
-  peopleList: [People!]!
+  peoplesList: [People!]!
+  # Elementos seleccionados
+  book(id: ID!): Book!
+  people(id: ID!): People!
 }
 
 # ? Books information

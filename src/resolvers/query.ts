@@ -1,7 +1,8 @@
 import { IResolvers } from "@graphql-tools/utils";
 import data from "../data";
-import { IBook } from "../interfaces/Book-interface";
+import { IBook } from "../interfaces/book-interface";
 import { IPeople } from "../interfaces/people-interface";
+import { validate } from "graphql";
 
 const QueryResolver: IResolvers = {
   Query: {
@@ -19,8 +20,14 @@ const QueryResolver: IResolvers = {
     booksList: (): Array<IBook> => {
       return data.books;
     },
-    peopleList: (): Array<IPeople> => {
+    peoplesList: (): Array<IPeople> => {
       return data.people;
+    },
+    book: (_: void, args: { id: string }) => {
+      return data.books.filter((value: IBook) => value.id === args.id)[0];
+    },
+    people: (_: void, args: { id: string }) => {
+      return data.people.filter((value: IPeople) => value.id === args.id)[0];
     },
   },
 };
