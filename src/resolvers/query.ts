@@ -24,12 +24,22 @@ const QueryResolver: IResolvers = {
     } => {
       return {
         status: true,
-        message: "Lista de libros cargada correctamente",
+        message: "Books List loaded successfully",
         list: data.books,
       };
     },
-    peoplesList: (): Array<IPeople> => {
-      return data.people;
+    peopleList: (): {
+      status: boolean;
+      message: string;
+      list: Array<IPeople>;
+    } => {
+      // return data.people;
+      // ? Whith unions
+      return {
+        status: true,
+        message: "People list loaded successfully",
+        list: data.people,
+      };
     },
     book: (
       _: void,
@@ -52,8 +62,27 @@ const QueryResolver: IResolvers = {
         item: SearchBook,
       };
     },
-    people: (_: void, args: { id: string }): IPeople => {
-      return data.people.filter((value: IPeople) => value.id === args.id)[0];
+    people: (
+      _: void,
+      args: { id: string }
+    ): {
+      status: boolean;
+      message: string;
+      item?: IPeople;
+    } => {
+      // return data.people.filter((value: IPeople) => value.id === args.id)[0];
+      // ? with unions
+      const SearchPeople: IPeople = data.people.filter(
+        (value: IPeople) => value.id === args.id
+      )[0];
+      return {
+        status: SearchPeople !== undefined ? true : false,
+        message:
+        SearchPeople !== undefined
+            ? `Book founded with id ${args.id}`
+            : `Book not founded with id ${args.id}`,
+        item: SearchPeople
+      }
     },
   },
 };

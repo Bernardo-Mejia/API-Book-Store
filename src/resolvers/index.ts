@@ -1,7 +1,9 @@
 import QueryResolver from "./query";
+import typesResolver from "./types";
 
 const resolverindex = {
-    ...QueryResolver
+    ...QueryResolver,
+    ...typesResolver
 }
 
 export default resolverindex;
