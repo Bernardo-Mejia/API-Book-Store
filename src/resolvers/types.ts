@@ -23,12 +23,34 @@ const typesResolver: IResolvers = {
         (book: IBook) => root.books.indexOf(book.id) > -1
       );
     },
+    github: (root: { github: string }) =>
+      root.github === undefined ? null : `https://github.com/${root.github}/`,
+    twitter: (root: { twitter: string }) =>
+      root.twitter === undefined
+        ? null
+        : `https://twitter.com/${root.twitter}/`,
+    website: (root: { website: string }) =>
+      root.website === undefined
+        ? null
+        : root.website,
   },
   Book: {
     byPeopleBuy: (root: { id: string }) => {
       return data.people.filter(
         (people: IPeople) => people.books.indexOf(root.id) > -1
       );
+    },
+    publishedDate: (root: { publishedDate: string }) => {
+      return root.publishedDate === undefined ? "?" : root.publishedDate;
+    },
+    thumbnailUrl: (root: { thumbnailUrl: string }) => {
+      return root.thumbnailUrl === undefined ? "?" : root.thumbnailUrl;
+    },
+    shortDescription: (root: { shortDescription: string }) => {
+      return root.shortDescription === undefined ? "?" : root.shortDescription;
+    },
+    longDescription: (root: { longDescription: string }) => {
+      return root.longDescription === undefined ? "?" : root.longDescription;
     },
   },
 };
