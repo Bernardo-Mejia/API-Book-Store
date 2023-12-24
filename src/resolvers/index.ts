@@ -1,9 +1,11 @@
-import QueryResolver from "./query";
 import typesResolver from "./types";
+import QueryResolver from "./query";
+import mutationResolvers from "./mutation";
 
 const resolverindex = {
-    ...QueryResolver,
-    ...typesResolver
-}
+  ...QueryResolver,
+  ...typesResolver,
+  ...mutationResolvers,
+};
 
 export default resolverindex;

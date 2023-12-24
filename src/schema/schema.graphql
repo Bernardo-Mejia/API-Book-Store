@@ -3,11 +3,19 @@ type Query {
   helloWithName(name: String!): String!
   peopleNumber: Int!
   # Lista de elementos
-  booksList: Result
-  peopleList: Result
+  booksList: Result!
+  peopleList: Result!
   # Elementos seleccionados
-  book(id: ID!): Result
-  people(id: ID!): Result
+  book(id: ID!): Result!
+  people(id: ID!): Result!
+}
+
+type Mutation {
+  addBook(book: BookInput!): Result!
+  updateBook(id: ID!): Result!
+  deleteBook(id: ID!): Result!
+
+  addPeople(people: PeopleInput): Result!
 }
 
 union Data = Book | People
@@ -26,6 +34,35 @@ type Book {
   authors: [String!]!
   # People who have bought this book
   byPeopleBuy: [People]
+}
+
+input BookInput {
+  id: ID
+  title: String!
+  isbn: String!
+  pageCount: Int!
+  publishedDate: String
+  thumbnailUrl: String
+  shortDescription: String
+  longDescription: String
+  status: StatusEnum = UNPUBLISH
+  "Authors who have written the book"
+  authors: [String!]!
+}
+
+enum StatusEnum {
+  PUBLISH
+  UNPUBLISH
+}
+
+input PeopleInput {
+  id: ID
+  name: String!
+  email: String!
+  website: String
+  github: String
+  twitter: String
+  books: [String!]!
 }
 
 # ? People information
