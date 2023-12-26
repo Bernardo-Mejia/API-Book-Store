@@ -71,7 +71,28 @@ const mutationResolvers: IResolvers = {
         item: args.book,
       };
     },
-    deleteBook: (_: void, args: { book: IBook }) => {},
+    deleteBook: (
+      _: void,
+      args: { id: string }
+    ): { status: boolean; message: string; item?: IBook } => {
+      let bookFounded,
+        deleteItem: boolean = false;
+      for (let i = 0; i < data.books.length; i++) {
+        if (data.books[i].id === args.id) {
+          bookFounded = data.books[i];
+          data.books.splice(i, 1);
+          deleteItem = true;
+          break;
+        }
+      }
+      return {
+        status: deleteItem,
+        message: deleteItem
+          ? `Book with id ${args.id} deleted successfully.`
+          : `Book with id ${args.id} not deleted.`,
+        item: bookFounded,
+      };
+    },
 
     addPeople: (
       _: void,
@@ -99,10 +120,10 @@ const mutationResolvers: IResolvers = {
       _: void,
       args: { people: IPeople }
     ): { status: boolean; message: string; item?: IPeople } => {
-        // Validate if the book exists
+      // Validate if the book exists
       if (
-        data.people.filter((people: IPeople) => people.id === args.people.id).length ===
-        0
+        data.people.filter((people: IPeople) => people.id === args.people.id)
+          .length === 0
       )
         return {
           status: false,
@@ -120,6 +141,29 @@ const mutationResolvers: IResolvers = {
         status: true,
         message: "Update successfully",
         item: args.people,
+      };
+    },
+
+    deletePeople: (
+      _: void,
+      args: { id: string }
+    ): { status: boolean; message: string; item?: IPeople } => {
+      let peopleFounded,
+        deletedItem: boolean = false;
+      for (let i = 0; i < data.people.length; i++) {
+        if (data.people[i].id === args.id) {
+          peopleFounded = data.people[i];
+          data.people.splice(i, 1);
+          deletedItem = true;
+          break;
+        }
+      }
+      return {
+        status: deletedItem,
+        message: deletedItem
+          ? `People with id ${args.id} deleted successfully.`
+          : `People with id ${args.id} not deleted`,
+        item: peopleFounded,
       };
     },
   },

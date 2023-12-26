@@ -79,8 +79,8 @@ const QueryResolver: IResolvers = {
         status: SearchPeople !== undefined ? true : false,
         message:
         SearchPeople !== undefined
-            ? `Book founded with id ${args.id}`
-            : `Book not founded with id ${args.id}`,
+            ? `People founded with id ${args.id}`
+            : `People not founded with id ${args.id}`,
         item: SearchPeople
       }
     },
